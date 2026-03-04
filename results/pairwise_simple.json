@@ -1,0 +1,19 @@
+[
+  {
+    "query": "white cotton t-shirt",
+    "product_0": {
+      "title": "White Cotton Oversized Long Sleeve T-Shirt",
+      "description": "The foundation of any considered wardrobe begins with pieces that offer both versatility and ease. This white, long-sleeved cotton tee delivers on both fronts, crafted from breathable cotton into an oversized silhouette. The cut allows for myriad styling options; consider it your blank canvas. Tuck it into tailored pants for a meeting-ready ensemble, or wear it loose over a leather mini skirt for an elevated weekend look. Length approx 68.5cm/27.5\" (Based on a sample size S) Model wears size S | White Cotton Oversized Long Sleeve T-Shirt",
+      "score": 0.6606418490409851
+    },
+    "product_1": {
+      "title": "Cotton White Oversized T-Shirt",
+      "description": "The foundation of a considered capsule wardrobe starts here. Crafted from breathable cotton, this white oversized t-shirt offers endless styling potential. Note the clean lines and relaxed silhouette - designed for comfort without compromising on style. Elevate the look by pairing it with tailored pants from our bottoms collection and sculptural jewelry for a contemporary edge. Length approx 76cm/30\" (Based on a sample size M) Model wears size S | Cotton White Oversized T-Shirt",
+      "score": 0.8743423223495483
+    },
+    "response": {
+      "reasoning": "Product 2 is a standard white cotton oversized t\u2011shirt matching the typical short\u2011sleeve \u201ct-shirt\u201d intent; Product 1 is long\u2011sleeved, making it less likely to match the user\u2019s unqualified query.",
+      "best_product_index": 1
+    }
+  }
+]
