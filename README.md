@@ -12,7 +12,7 @@ Both encoders are evaluated using an LLM-as-a-judge framework inspired by [LLMs 
 ## Install
 
 ```bash
-git clone https://github.com/PeDiot/jokosearch/blob/main/notebook.ipynb
+git clone https://github.com/PeDiot/jokosearch.git
 cd jokosearch
 uv sync
 ```
@@ -70,16 +70,21 @@ Three query categories (30 queries each) were generated with Gemini Pro:
 | [**Specific**](queries/specific.json) | Exact models, technical materials, brands       | `levis 501 original fit men's jeans`      |
 
 
-### 5. Results — FashionCLIP win rate
+### 5. Results — Pairwise evaluation
 
-Win rate = share of queries where the pairwise judge preferred the FashionCLIP result over the OpenAI result.
+For each query, the pairwise judge picks a winner between the FashionCLIP and OpenAI results (or declares a tie). Given $W$ wins, $L$ losses, and $T$ ties over $N = W + L + T$ comparisons:
 
+$$WR = \frac{W}{N}$$
 
-| Category | FashionCLIP wins | OpenAI wins | Ties | FashionCLIP win rate |
-| -------- | ---------------- | ----------- | ---- | -------------------- |
-| Simple   | —               | —           | —     | —                   |
-| Thematic | —                 | —           | —    | —                   |
-| Specific | —                | —           | —    | —                    |
+$$nWR = \frac{W - L}{N}$$
+
+where $WR$ is the **Win Rate** (share of comparisons won by FashionCLIP) and $nWR$ is the **Net Win Rate** (wins minus losses, normalized by total comparisons). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
+
+| Category | $N$ | FashionCLIP wins | OpenAI wins | Ties | $WR$ | $nWR$ |
+| -------- | --- | ---------------- | ----------- | ---- | ----- | ------ |
+| Simple   | 150 | 44               | 71          | 35   | 0.29  | −0.18  |
+| Thematic | 150 | 49               | 96          | 5    | 0.33  | −0.31  |
+| Specific | 150 | 49               | 42          | 59   | 0.33  | +0.05  |
 
 
 ## Going further
