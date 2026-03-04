@@ -4,8 +4,8 @@ Inspired by [Semantic Search at Scale](https://engineering.hellojoko.com/posts/s
 
 Semantic vector search on the [Joko Clothing Products](https://www.kaggle.com/datasets/b1daeda415bc26ef57c585765a8b1ff504df8bbe460b73b871069d199fea86f5) catalog (17k products). We compare retrieval relevance between two encoders:
 
-- **OpenAI `text-embedding-3-small`** — a generalist text embedding model (1536-dim)
-- **[FashionCLIP](https://huggingface.co/Marqo/marqo-fashionCLIP)** — a CLIP model fine-tuned on fashion image–text pairs (512-dim).
+- **OpenAI** (`text-embedding-3-small`): a generalist text embedding model (1536-dim)
+- **[FashionCLIP](https://huggingface.co/Marqo/marqo-fashionCLIP)** (`Marqo/marqo-fashionCLIP`): a CLIP model fine-tuned on fashion image–text pairs (512-dim).
 
 Both encoders are evaluated using an LLM-as-a-judge framework inspired by [LLMs Judging LLMs](https://engineering.hellojoko.com/posts/llms-judging-llms-a-new-evaluation-paradigm/) from the Joko Engineering Blog.
 
@@ -34,18 +34,18 @@ export HF_API_TOKEN="..."
 
 ## Workflow
 
-The full pipeline is in `[notebook.ipynb](notebook.ipynb)`.
+The full pipeline is in [`notebook.ipynb`](notebook.ipynb).
 
 ### 1. Embedding
 
 Each product is encoded twice:
 
-- **OpenAI** encodes `title + description` (concatenated) via the OpenAI API.
-- **FashionCLIP** encodes `title` only via a [Hugging Face Space](https://huggingface.co/spaces/precove/fclip_back3) hosting the FashionCLIP encoder.
+- **OpenAI** encodes `title` + `description` (concatenated) via the OpenAI API.
+- **FashionCLIP** encodes `title` only via the FashionCLIP encoder hosted on [Hugging Face Space](https://huggingface.co/spaces/precove/fclip_back3).
 
 ### 2. Indexing and search
 
-Both sets of embeddings are L2-normalized and loaded into separate in-memory **FAISS** `IndexFlatIP` indices (inner product on normalized vectors = cosine similarity). At query time, the query is embedded with each encoder and the top-k nearest neighbors are retrieved from the corresponding index.
+Both sets of embeddings are L2-normalized and loaded into separate in-memory **FAISS** `IndexFlatIP` indices (inner product on normalized vectors = cosine similarity). At query time, the query is embedded with each encoder and the top-`k` nearest neighbors are retrieved from the corresponding index.
 
 ### 3. LLM-as-a-judge evaluation
 
@@ -60,14 +60,14 @@ Two judge strategies are implemented, both backed by `gpt-5-mini` via OpenAI str
 
 ### 4. Evaluation queries
 
-Three query categories (30 queries each) were generated with Gemini Pro:
+Three query categories (30 queries each) were generated with Gemini Pro **inspired from the product catalog itself**, so that every test query has at least one guaranteed perfect match in the dataset.
 
 
-| Category     | Description                                     | Example                                   |
-| ------------ | ----------------------------------------------- | ----------------------------------------- |
-| [**Simple**](queries/simple.json)  | Basic clothing types with generic colors/styles | `white cotton t-shirt`                    |
-| [**Thematic**](queries/thematic.json) | Style, aesthetic, event, or weather context     | `boho chic maxi skirt for music festival` |
-| [**Specific**](queries/specific.json) | Exact models, technical materials, brands       | `levis 501 original fit men's jeans`      |
+| Category                              | Description                                     | Example                                   |
+| ------------------------------------- | ----------------------------------------------- | ----------------------------------------- |
+| **[Simple](queries/simple.json)**     | Basic clothing types with generic colors/styles | `white cotton t-shirt`                    |
+| **[Thematic](queries/thematic.json)** | Style, aesthetic, event, or weather context     | `boho chic maxi skirt for music festival` |
+| **[Specific](queries/specific.json)** | Exact models, technical materials, brands       | `levis 501 original fit men's jeans`      |
 
 
 ### 5. Results — Pairwise evaluation
@@ -78,17 +78,19 @@ $$WR = \frac{W}{N}$$
 
 $$nWR = \frac{W - L}{N}$$
 
-where $WR$ is the **Win Rate** (share of comparisons won by FashionCLIP) and $nWR$ is the **Net Win Rate** (wins minus losses, normalized by total comparisons). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
+where 
+- $WR$ is the **Win Rate** (share of comparisons won by FashionCLIP) 
+- $nWR$ is the **net Win Rate** (wins minus losses, normalized by total comparisons). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
+
 
 | Category | $N$ | FashionCLIP wins | OpenAI wins | Ties | $WR$ | $nWR$ |
-| -------- | --- | ---------------- | ----------- | ---- | ----- | ------ |
-| Simple   | 150 | 44               | 71          | 35   | 0.29  | −0.18  |
-| Thematic | 150 | 49               | 96          | 5    | 0.33  | −0.31  |
-| Specific | 150 | 49               | 42          | 59   | 0.33  | +0.05  |
+| -------- | --- | ---------------- | ----------- | ---- | ---- | ----- |
+| Simple   | —   | —                | —           | —    | —    | —     |
+| Thematic | —   | —                | —           | —    | —    | —     |
+| Specific | —   | —                | —           | —    | —    | —     |
 
 
 ## Going further
 
-- Increase `top-k`
-- Generate more example queries
-- Evaluate with `agent_scoring`
+- Reference-guided evaluation to get relevance scores
+- Use relevance scores to derive nDCG@K, Precision@K, Recall@K
