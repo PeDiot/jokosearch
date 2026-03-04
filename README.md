@@ -77,7 +77,7 @@ Win rate = share of queries where the pairwise judge preferred the FashionCLIP r
 
 | Category | FashionCLIP wins | OpenAI wins | Ties | FashionCLIP win rate |
 | -------- | ---------------- | ----------- | ---- | -------------------- |
-| Simple   | -               | —           | —     | —                   |
+| Simple   | —               | —           | —     | —                   |
 | Thematic | —                 | —           | —    | —                   |
 | Specific | —                | —           | —    | —                    |
 
