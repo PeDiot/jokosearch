@@ -12,6 +12,7 @@ wheels/
 # Data
 ruff_cache/
 data/
+results/
 
 # Secrets
 .env
