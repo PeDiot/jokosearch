@@ -77,9 +77,13 @@ Win rate = share of queries where the pairwise judge preferred the FashionCLIP r
 
 | Category | FashionCLIP wins | OpenAI wins | Ties | FashionCLIP win rate |
 | -------- | ---------------- | ----------- | ---- | -------------------- |
-| Simple   | 10               | 11          | 9    | 33%                  |
-| Thematic | 9                | 18          | 3    | 30%                  |
+| Simple   | -               | —           | —     | —                   |
+| Thematic | —                 | —           | —    | —                   |
 | Specific | —                | —           | —    | —                    |
 
 
-The generalist OpenAI encoder outperforms FashionCLIP on this catalog, particularly on thematic queries where understanding broader context and description text matters more than visual keyword matching.
+## Going further
+
+- Increase `top-k`
+- Generate more example queries
+- Evaluate with `agent_scoring`
