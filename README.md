@@ -9,15 +9,12 @@ Semantic vector search on the [Joko Clothing Products](https://www.kaggle.com/da
 
 Both encoders are evaluated using an LLM-as-a-judge framework inspired by [LLMs Judging LLMs](https://engineering.hellojoko.com/posts/llms-judging-llms-a-new-evaluation-paradigm/) from the Joko Engineering Blog.
 
----
 
 ## TL;DR: OpenAI vs. FashionCLIP
 
 - **OpenAI wins on "Vibes" ($p < 0.001$):** By leveraging full product descriptions, OpenAI overwhelmingly outperforms FashionCLIP on abstract, occasion-based, or thematic queries (e.g., "glamorous night out dress"), proving essential for complex user intents.
 - **FashionCLIP matches on "Specifics" ($p = 0.75$):** Despite strict token limits and relying *only* on the product title, FashionCLIP performs statistically on par with OpenAI on exact/technical clothing matches, making it a highly efficient, lightweight alternative.
 - **The Verdict:** If you have rich descriptions and vibe-based queries, use OpenAI. If you only have titles or need a fast, local, cost-effective solution for exact visual matching, FashionCLIP is highly effective. A production system would ideally use a **Hybrid Search** of both.
-
----
 
 ## Install
 
@@ -96,9 +93,9 @@ where
 
 | Category | $N$ | $W$ | $L$ | $T_g$ | $T_b$ | $WR$ | $nWR$ | $p$-value |
 | -------- | --- | --- | --- | ------ | ------ | ---- | ----- | --------- |
-| Simple   | 90  | 25  | 30  | 28     | 7      | 0.28 | -0.06 | 0.58      |
+| Simple   | 90  | 25  | 30  | 28     | 7      | 0.28 | -0.06 | 0.59      |
 | Thematic | 90  | 19  | 66  | 5      | 0      | 0.21 | **-0.52** | **< 0.001** |
-| Specific | 90  | 22  | 19  | 36     | 13     | 0.24 | +0.04 | 0.75      |
+| Specific | 90  | 22  | 19  | 36     | 13     | 0.24 | +0.04 | 0.76     |
 
 *Note: The p-value is calculated using a Two-Tailed Binomial Test on decisive matchups ($W$ vs $L$). $p < 0.05$ is considered statistically significant.*
 
@@ -116,8 +113,6 @@ where
 
 **Judge:** *"Product 2 matches all query keywords: chartreuse, satin and explicitly A-line. Product 1 is chartreuse satin but is a maxi (not A-line), so it fails the A-line constraint."*
 
----
-
 #### OpenAI Win
 
 > **Query:** `sheer crochet asymmetric top`
@@ -129,8 +124,6 @@ where
 
 **Judge:** *"Product 1 is a sheer ecru knit asymmetric top, matching 'sheer' and 'asymmetric'; knit is closer to 'crochet' than mesh. Product 2 is mesh and longline, less crochet-like."*
 
----
-
 #### Good Tie (both relevant)
 
 > **Query:** `sheer floral lace corset`
@@ -141,8 +134,6 @@ where
 | **FashionCLIP** | Almond Textured Sheer Floral Lace Corset | 0.904 |
 
 **Judge:** *"Tie — both listings exactly match the query: sheer floral lace corsets. They differ only by color (mint vs almond) and minor styling, so both are highly relevant."*
-
----
 
 #### Bad Tie (both irrelevant)
 
@@ -160,8 +151,8 @@ where
 ### Takeaways
 
 * **OpenAI Dominates Thematic Searches ($p < 0.001$):** By leveraging full, rich product descriptions, OpenAI outperforms FashionCLIP on abstract, occasion-based queries (e.g., "glamorous night out dress"). The LLM architecture is essential for mapping complex user intents.
-* **FashionCLIP Holds Its Ground on Specific Matching ($p = 0.75$):** Despite being strictly limited to the product title (a 77-token limit), FashionCLIP performs **statistically on par** with OpenAI on highly specific, technical queries. If a user searches for an exact, technical clothing item, FashionCLIP is enough to surface the perfect product.
-* **A Strong Shared Baseline for Simple Queries ($p = 0.58$):** For straightforward attribute searches (e.g., "sage maxi dress"), both models perform almost identically, resulting in a statistical tie and a high volume of "Good Ties". This confirms that while OpenAI is the superior generalist for complex intents, FashionCLIP remains a highly efficient, lightweight, and cost-effective alternative for standard catalog matching.
+* **FashionCLIP Holds Its Ground on Specific Matching ($p = 0.76$):** Despite being strictly limited to the product title (a 77-token limit), FashionCLIP performs **statistically on par** with OpenAI on highly specific, technical queries. If a user searches for an exact, technical clothing item, FashionCLIP is enough to surface the perfect product.
+* **A Strong Shared Baseline for Simple Queries ($p = 0.59$):** For straightforward attribute searches (e.g., "sage maxi dress"), both models perform almost identically, resulting in a statistical tie and a high volume of "Good Ties". This confirms that while OpenAI is the superior generalist for complex intents, FashionCLIP remains a highly efficient, lightweight, and cost-effective alternative for standard catalog matching.
 
 
 ## Going further
