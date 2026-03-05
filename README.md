@@ -148,7 +148,7 @@ where
 
 </details>
 
-### Takeaways
+## Takeaways
 
 * **OpenAI Dominates Thematic Searches ($p < 0.001$):** By leveraging full, rich product descriptions, OpenAI outperforms FashionCLIP on abstract, occasion-based queries (e.g., "glamorous night out dress"). The LLM architecture is essential for mapping complex user intents.
 * **FashionCLIP Holds Its Ground on Specific Matching ($p = 0.76$):** Despite being strictly limited to the product title (a 77-token limit), FashionCLIP performs **statistically on par** with OpenAI on highly specific, technical queries. If a user searches for an exact, technical clothing item, FashionCLIP is enough to surface the perfect product.
