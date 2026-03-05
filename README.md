@@ -72,22 +72,22 @@ Three query categories (30 queries each) were generated with Gemini Pro **inspir
 
 ### 5. Results — Pairwise evaluation
 
-For each query, the pairwise judge picks a winner between the FashionCLIP and OpenAI results (or declares a tie). Given $W$ wins, $L$ losses, and $T$ ties over $N = W + L + T$ comparisons:
+For each query, the pairwise judge picks a winner between the FashionCLIP and OpenAI results (or declares a tie). Ties are split into **good ties** $T_g$ (both results relevant) and **bad ties** $T_b$ (both irrelevant). Given $W$ wins, $L$ losses over $N = W + L + T_g + T_b$ total comparisons:
 
 $$WR = \frac{W}{N}$$
 
-$$nWR = \frac{W - L}{N}$$
+$$nWR = \frac{W - L}{N - T_b}$$
 
 where 
 - $WR$ is the **Win Rate** (share of comparisons won by FashionCLIP) 
-- $nWR$ is the **net Win Rate** (wins minus losses, normalized by total comparisons). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
+- $nWR$ is the **net Win Rate** (wins minus losses, normalized by valid comparisons excluding bad ties). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
 
 
-| Category | $N$ | FashionCLIP wins | OpenAI wins | Ties | $WR$ | $nWR$ |
-| -------- | --- | ---------------- | ----------- | ---- | ---- | ----- |
-| Simple   | —   | —                | —           | —    | —    | —     |
-| Thematic | —   | —                | —           | —    | —    | —     |
-| Specific | —   | —                | —           | —    | —    | —     |
+| Category | $N$ | $W$ | $L$ | $T_g$ | $T_b$ | $WR$ | $nWR$ |
+| -------- | --- | --- | --- | ------ | ------ | ---- | ----- |
+| Simple   | 90  | 30  | 25  | 28     | 7      | 0.33 | +0.06 |
+| Thematic | 90  | 66  | 19  | 5      | 0      | 0.73 | +0.52 |
+| Specific | 90  | 19  | 22  | 36     | 13     | 0.21 | −0.04 |
 
 
 ## Going further
