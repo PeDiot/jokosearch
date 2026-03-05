@@ -12,8 +12,8 @@ Both encoders are evaluated using an LLM-as-a-judge framework inspired by [LLMs 
 
 ## TL;DR: OpenAI vs. FashionCLIP
 
-- **OpenAI wins on "Vibes" ($p < 0.001$):** By leveraging full product descriptions, OpenAI overwhelmingly outperforms FashionCLIP on abstract, occasion-based, or thematic queries (e.g., "glamorous night out dress"), proving essential for complex user intents.
-- **FashionCLIP matches on "Specifics" ($p = 0.75$):** Despite strict token limits and relying *only* on the product title, FashionCLIP performs statistically on par with OpenAI on exact/technical clothing matches, making it a highly efficient, lightweight alternative.
+- **OpenAI wins on "Vibes":** By leveraging full product descriptions, OpenAI overwhelmingly outperforms FashionCLIP on abstract, occasion-based, or thematic queries (e.g., "glamorous night out dress"), proving essential for complex user intents.
+- **FashionCLIP matches on "Specifics":** Despite strict token limits and relying *only* on the product title, FashionCLIP performs statistically on par with OpenAI on exact/technical clothing matches, making it a highly efficient, lightweight alternative.
 - **The Verdict:** If you have rich descriptions and vibe-based queries, use OpenAI. If you only have titles or need a fast, local, cost-effective solution for exact visual matching, FashionCLIP is highly effective. A production system would ideally use a **Hybrid Search** of both.
 
 ## Install
