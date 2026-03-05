@@ -72,7 +72,9 @@ Three query categories (30 queries each) were generated with Gemini Pro **inspir
 
 ### 5. Results — Pairwise evaluation
 
-For each query, the pairwise judge picks a winner between the FashionCLIP and OpenAI results (or declares a tie). Ties are split into **good ties** $T_g$ (both results relevant) and **bad ties** $T_b$ (both irrelevant). Given $W$ wins, $L$ losses over $N = W + L + T_g + T_b$ total comparisons:
+For each query, the pairwise judge picks a winner between the FashionCLIP and OpenAI results (or declares a tie). Ties are split into **good ties** $T_g$ (both results relevant) and **bad ties** $T_b$ (both irrelevant). 
+
+Given $W$ wins, $L$ losses over $N = W + L + T_g + T_b$ total comparisons:
 
 $$WR = \frac{W}{N}$$
 
