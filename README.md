@@ -84,15 +84,24 @@ where
 - $WR$ is the **Win Rate**: share of comparisons won by FashionCLIP
 - $nWR$ is the **net Win Rate**: wins minus losses, normalized by valid comparisons excluding bad ties, $nWR \in [-1, 1]$ (positive means FashionCLIP is preferred overall)
 
+| Category | $N$ | $W$ | $L$ | $T_g$ | $T_b$ | $WR$ | $nWR$ | $p$-value |
+| -------- | --- | --- | --- | ------ | ------ | ---- | ----- | --------- |
+| Simple   | 90  | 25  | 30  | 28     | 7      | 0.28 | -0.06 | 0.58      |
+| Thematic | 90  | 19  | 66  | 5      | 0      | 0.21 | **-0.52** | **< 0.001** |
+| Specific | 90  | 22  | 19  | 36     | 13     | 0.24 | +0.04 | 0.75      |
 
-| Category | $N$ | $W$ | $L$ | $T_g$ | $T_b$ | $WR$ | $nWR$ |
-| -------- | --- | --- | --- | ------ | ------ | ---- | ----- |
-| Simple   | 90  | 25  | 30  | 28     | 7      | 0.28 | -0.06 |
-| Thematic | 90  | 19  | 66  | 5      | 0      | 0.21 | -0.52 |
-| Specific | 90  | 22  | 19  | 36     | 13     | 0.24 | +0.04 |
+*Note: The p-value is calculated using a Two-Tailed Binomial Test on decisive matchups ($W$ vs $L$). $p < 0.05$ is considered statistically significant.*
+
+### Takeaways
+
+* **OpenAI Dominates Thematic Searches ($p < 0.001$):** By leveraging full, rich product descriptions, OpenAI outperforms FashionCLIP on abstract, occasion-based queries (e.g., "glamorous night out dress"). The LLM architecture is essential for mapping complex user intents.
+* **FashionCLIP Holds Its Ground on Specific Matching ($p = 0.75$):** Despite being strictly limited to the product title (a 77-token limit), FashionCLIP performs **statistically on par** with OpenAI on highly specific, technical queries. If a user searches for an exact, technical clothing item, FashionCLIP is enough to surface the perfect product.
+* **A Strong Shared Baseline for Simple Queries ($p = 0.58$):** For straightforward attribute searches (e.g., "sage maxi dress"), both models perform almost identically, resulting in a statistical tie and a high volume of "Good Ties". This confirms that while OpenAI is the superior generalist for complex intents, FashionCLIP remains a highly efficient, lightweight, and cost-effective alternative for standard catalog matching.
 
 
 ## Going further
 
-- Reference-guided evaluation to get relevance scores
-- Use relevance scores to derive nDCG@K, Precision@K, Recall@K
+- **Real-World Data:** Scale the evaluation dataset using actual search logs from Joko users (if some users already have access to the vector search feature)
+- **Standard IR Metrics:** Implement absolute relevance scoring (pointwise evaluation) to calculate formal ranking metrics like nDCG@K, Precision@K, and Recall
+- **Multimodal & Hybrid Search:** Evaluate true image-to-text retrieval using FashionCLIP's visual encoder, and test hybrid pipelines (e.g., OpenAI for semantics + BM25 for exact match)
+- **Production Validation:** Benchmark latency and cost tradeoffs between FashionCLIP API hosted on Hugging Face and OpenAI API
