@@ -79,8 +79,8 @@ $$WR = \frac{W}{N}$$
 $$nWR = \frac{W - L}{N - T_b}$$
 
 where 
-- $WR$ is the **Win Rate** (share of comparisons won by FashionCLIP) 
-- $nWR$ is the **net Win Rate** (wins minus losses, normalized by valid comparisons excluding bad ties). $nWR \in [-1, 1]$: positive means FashionCLIP is preferred overall, negative means OpenAI is preferred.
+- $WR$ is the **Win Rate**: share of comparisons won by FashionCLIP
+- $nWR$ is the **net Win Rate**: wins minus losses, normalized by valid comparisons excluding bad ties, $nWR \in [-1, 1]$ (positive means FashionCLIP is preferred overall)
 
 
 | Category | $N$ | $W$ | $L$ | $T_g$ | $T_b$ | $WR$ | $nWR$ |
